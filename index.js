@@ -1,19 +1,17 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const cors = require('cors');
+const dotenv = require('dotenv').config()
 const admin = require("firebase-admin");
-const stripe = require("stripe")('sk_test_51L0lwtHGg1scLdsyhevcIYE2QkaXKnXBE8qDnrLNRtRZBv0X3JznXSAU9nsGPzyDR7cDEYJWl5PsTilDXuv6Oe5G00Pmg9XGuK');
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const { response } = require('express');
-const password = 'gWvytrY09IP2D8Gw';
-const user = 'parkinguser';
 
 const app = express();
 app.use(cors());
 app.use(bodyparser.json())
-const port = 5000
+const port = process.env.PORT || 5000
 
-const uri = `mongodb+srv://${user}:${password}@cluster0.zm4oi.mongodb.net/parking?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_SECRET}@cluster0.zm4oi.mongodb.net/parking?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect(err => {
     const usersCollection = client.db("parking").collection("users");
@@ -69,8 +67,8 @@ client.connect(err => {
         const result2 = await usersCollection.updateOne(query, updateDocument);
         res.json(result)
     })
+    
     //Get a single bookings by id
-
     app.get('/booking/:bookingId', async (req, res)=>{
         const id = req.params.bookingId;
         const query = {_id: ObjectId(id)};
