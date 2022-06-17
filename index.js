@@ -18,7 +18,7 @@ client.connect(err => {
     const bookingCollection = client.db("parking").collection("bookings");
 
     app.get('/', async (req, res)=>{
-        res.send('Running parking')
+        res.send('Running parking server')
     })
     //Get a single user
     app.get('/user', async (req, res)=>{
