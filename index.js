@@ -17,6 +17,9 @@ client.connect(err => {
     const usersCollection = client.db("parking").collection("users");
     const bookingCollection = client.db("parking").collection("bookings");
 
+    app.get('/', async (req, res)=>{
+        res.send('Running parking')
+    })
     //Get a single user
     app.get('/user', async (req, res)=>{
         const email = req.query.email;
