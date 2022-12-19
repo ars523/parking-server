@@ -5,7 +5,7 @@ const {
     registerUser,
 } = require('../controllers/userControllers')
 
-userRouter.post('/register', registerUser)
+userRouter.post('/signup', registerUser)
 userRouter.post('/signin', signinUser)
 
 module.exports = userRouter
